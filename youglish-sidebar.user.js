@@ -46,6 +46,17 @@
             background: #181825;
             border-bottom: 1px solid #313244;
         }
+        #yg-sidebar .yg-autonext {
+            padding: 8px 14px;
+            font-size: 13px;
+            background: #181825;
+            border-bottom: 1px solid #313244;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #yg-sidebar .yg-autonext label { cursor: pointer; }
+        #yg-sidebar .yg-autonext input { cursor: pointer; accent-color: #a6e3a1; }
 
         #yg-sidebar .yg-search {
             padding: 8px 14px;
@@ -115,8 +126,16 @@
     // ---- build sidebar ----
     const sidebar = document.createElement('div');
     sidebar.id = 'yg-sidebar';
+    const onYouglish = location.hostname.includes('youglish.com');
+    const AUTO_KEY = 'yg_autonext';
+
     sidebar.innerHTML = `
         <div class="yg-header">FIA Vocabulary</div>
+        ${onYouglish ? `
+        <div class="yg-autonext">
+            <input type="checkbox" id="yg-auto-next">
+            <label for="yg-auto-next">Auto Next (10s)</label>
+        </div>` : ''}
         <div class="yg-search"><input type="text" placeholder="Search words..." id="yg-search-input"></div>
         <div class="yg-list" id="yg-word-list"></div>
         <div class="yg-info" id="yg-info">
@@ -218,6 +237,23 @@
     function showLastWord() {
         const h = getHistory();
         if (h.length) showInfo(h[h.length - 1]);
+    }
+
+    // ---- auto next (YouGlish only) ----
+    if (onYouglish) {
+        const cb = document.getElementById('yg-auto-next');
+        let autoTimer = null;
+
+        function startAuto() { stopAuto(); autoTimer = setInterval(() => { const btn = document.getElementById('b_next'); if (btn) btn.click(); }, 10000); }
+        function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+
+        cb.checked = GM_getValue(AUTO_KEY, false);
+        if (cb.checked) startAuto();
+
+        cb.addEventListener('change', function() {
+            GM_setValue(AUTO_KEY, this.checked);
+            this.checked ? startAuto() : stopAuto();
+        });
     }
 
 })();
