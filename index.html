@@ -204,19 +204,6 @@ const wordsData = {
 
 const container = document.getElementById('wordContainer');
 const tooltip = document.getElementById('tooltip');
-let activeWord = null;
-
-function posTooltip(el) {
-    const rect = el.getBoundingClientRect();
-    let x = rect.left + rect.width / 2;
-    let y = rect.bottom + 8;
-    const tw = tooltip.offsetWidth;
-    if (x + tw / 2 > window.innerWidth) x = window.innerWidth - tw / 2;
-    if (x - tw / 2 < 0) x = tw / 2;
-    if (y + tooltip.offsetHeight > window.innerHeight) y = rect.top - tooltip.offsetHeight - 8;
-    tooltip.style.left = (x - tw / 2) + 'px';
-    tooltip.style.top = y + 'px';
-}
 
 function showTooltip(word) {
     const d = wordsData[word];
@@ -231,7 +218,6 @@ function showTooltip(word) {
 
 function hideTooltip() {
     tooltip.style.display = 'none';
-    activeWord = null;
 }
 
 let touchFired = false;
@@ -276,6 +262,25 @@ function openYouglish(a, word) {
     window.open(a.href, '_blank');
 }
 
+function posTooltipAt(el, cx, cy) {
+    let x, y;
+    if (cx != null) {
+        x = cx + 15;
+        y = cy + 15;
+    } else {
+        const rect = el.getBoundingClientRect();
+        x = rect.left + rect.width / 2;
+        y = rect.bottom + 8;
+    }
+    const tw = tooltip.offsetWidth;
+    if (x + tw > window.innerWidth) x = Math.max(4, cx != null ? cx - tw - 15 : window.innerWidth - tw - 4);
+    if (y + tooltip.offsetHeight > window.innerHeight) y = Math.max(4, cy != null ? cy - tooltip.offsetHeight - 15 : window.innerHeight - tooltip.offsetHeight - 4);
+    if (x < 4) x = 4;
+    if (y < 4) y = 4;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+}
+
 const words = Object.keys(wordsData);
 words.forEach(w => {
     const a = document.createElement('a');
@@ -284,18 +289,22 @@ words.forEach(w => {
     a.textContent = w;
     a.dataset.word = w;
 
-    // desktop: single click = tooltip, double click = YouGlish
+    // desktop: hover = tooltip, click = YouGlish
+    a.addEventListener('mouseenter', e => {
+        if (touchFired) return;
+        showTooltip(w);
+        posTooltipAt(a, e.clientX, e.clientY);
+    });
+    a.addEventListener('mousemove', e => {
+        if (touchFired) return;
+        posTooltipAt(a, e.clientX, e.clientY);
+    });
+    a.addEventListener('mouseleave', () => {
+        if (touchFired) return;
+        hideTooltip();
+    });
     a.addEventListener('click', e => {
         if (touchFired) { touchFired = false; return; }
-        e.preventDefault();
-        if (e.detail === 2) return;
-        if (activeWord === w) { hideTooltip(); return; }
-        activeWord = w;
-        showTooltip(w);
-        posTooltip(a);
-    });
-
-    a.addEventListener('dblclick', e => {
         e.preventDefault();
         openYouglish(a, w);
     });
@@ -312,10 +321,8 @@ words.forEach(w => {
         }
         tapTimer = setTimeout(() => {
             tapTimer = null;
-            if (activeWord === w) { hideTooltip(); return; }
-            activeWord = w;
             showTooltip(w);
-            posTooltip(a);
+            posTooltipAt(a);
         }, 300);
     }, { passive: true });
 
