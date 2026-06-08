@@ -136,6 +136,7 @@
                 wordsData = JSON.parse(res.responseText);
                 renderList(Object.keys(wordsData));
                 applyHistory();
+                showLastWord();
             } catch(e) {
                 sidebar.querySelector('.yg-list').innerHTML = '<div class="yg-word" style="cursor:default;color:#f38ba8;">Failed to load data</div>';
             }
@@ -212,6 +213,11 @@
             const el = document.querySelector(`#yg-word-list .yg-word[data-word="${word}"]`);
             if (el) el.classList.add(classes[i]);
         });
+    }
+
+    function showLastWord() {
+        const h = getHistory();
+        if (h.length) showInfo(h[h.length - 1]);
     }
 
 })();
