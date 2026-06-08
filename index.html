@@ -32,11 +32,58 @@ a.word {
     color: #333;
     border: 1px solid #ddd;
     transition: 0.2s;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
 }
 
 a.word:hover {
     background: #007bff;
     color: white;
+}
+
+a.word.prominent {
+    background: #fff3cd;
+    border-color: #ffc107;
+    border-width: 2px;
+    font-weight: bold;
+}
+
+a.word.medium {
+    background: #e3f2fd;
+    border-color: #2196f3;
+    border-width: 2px;
+}
+
+a.word.subtle {
+    background: #f3e5f5;
+    border-color: #ce93d8;
+    border-width: 2px;
+}
+
+.tooltip {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    background: #222;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    min-width: 220px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    pointer-events: none;
+}
+
+.tooltip .label {
+    color: #aaa;
+    margin-right: 4px;
+}
+
+.tooltip .value {
+    color: #fff;
 }
 </style>
 </head>
@@ -45,121 +92,238 @@ a.word:hover {
 
 <h1>FIA Vocabulary Pronunciation (YouGlish)</h1>
 
-<div class="container">
+<div class="container" id="wordContainer">
 
-<!-- 100 FIA WORDS -->
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Abandon/english">Abandon</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Abolish/english">Abolish</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Abrupt/english">Abrupt</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Abundant/english">Abundant</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Accede/english">Accede</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Accurate/english">Accurate</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Achieve/english">Achieve</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Admit/english">Admit</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Adverse/english">Adverse</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Ancient/english">Ancient</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Arrogant/english">Arrogant</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Artificial/english">Artificial</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Authentic/english">Authentic</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Barren/english">Barren</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Brave/english">Brave</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Brief/english">Brief</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Capable/english">Capable</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Cautious/english">Cautious</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Cease/english">Cease</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Clear/english">Clear</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Complex/english">Complex</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Conceal/english">Conceal</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Condemn/english">Condemn</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Construct/english">Construct</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Decline/english">Decline</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Decrease/english">Decrease</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Defend/english">Defend</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Destroy/english">Destroy</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Diligent/english">Diligent</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Eliminate/english">Eliminate</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Enormous/english">Enormous</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Essential/english">Essential</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Expand/english">Expand</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Frequent/english">Frequent</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Generous/english">Generous</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Genuine/english">Genuine</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Huge/english">Huge</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Important/english">Important</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Increase/english">Increase</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Innocent/english">Innocent</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Intelligent/english">Intelligent</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Legal/english">Legal</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Major/english">Major</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Modern/english">Modern</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Obvious/english">Obvious</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Permit/english">Permit</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Powerful/english">Powerful</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Prevent/english">Prevent</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Reject/english">Reject</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Rich/english">Rich</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Safe/english">Safe</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Simple/english">Simple</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Strong/english">Strong</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Temporary/english">Temporary</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Useful/english">Useful</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Valid/english">Valid</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Victory/english">Victory</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Visible/english">Visible</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Wealthy/english">Wealthy</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Abhor/english">Abhor</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Alleviate/english">Alleviate</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Benevolent/english">Benevolent</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Coherent/english">Coherent</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Deteriorate/english">Deteriorate</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Explicit/english">Explicit</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Fragile/english">Fragile</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Hostile/english">Hostile</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Inevitable/english">Inevitable</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Infer/english">Infer</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Lucid/english">Lucid</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Malicious/english">Malicious</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Mandatory/english">Mandatory</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Massive/english">Massive</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Obsolete/english">Obsolete</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Optimistic/english">Optimistic</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Prohibit/english">Prohibit</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Prompt/english">Prompt</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Prudent/english">Prudent</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Rigid/english">Rigid</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Robust/english">Robust</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Scarce/english">Scarce</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Sincere/english">Sincere</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Subtle/english">Subtle</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Sustain/english">Sustain</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Transparent/english">Transparent</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Ultimate/english">Ultimate</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Unique/english">Unique</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Vacant/english">Vacant</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Validate/english">Validate</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Vanished/english">Vanish</a>
-
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Vast/english">Vast</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Verify/english">Verify</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Vulnerable/english">Vulnerable</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Withdraw/english">Withdraw</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Yield/english">Yield</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Dull/english">Dull</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Dense/english">Dense</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Arduous/english">Arduous</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Assert/english">Assert</a>
-<a class="word" target="_blank" href="https://youglish.com/pronounce/Conceal/english">Conceal</a>
-
+<!-- words injected by JS -->
 </div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const wordsData = {
+  "Abandon":      { synonym: "Forsake",      antonym: "Keep",       urdu: "ترک کرنا" },
+  "Abolish":      { synonym: "Annul",        antonym: "Establish",  urdu: "ختم کرنا" },
+  "Abrupt":       { synonym: "Sudden",       antonym: "Gradual",    urdu: "اچانک" },
+  "Abundant":     { synonym: "Plentiful",    antonym: "Scarce",     urdu: "وافر" },
+  "Accede":       { synonym: "Agree",        antonym: "Refuse",     urdu: "مان لینا" },
+  "Accurate":     { synonym: "Precise",      antonym: "Inaccurate", urdu: "درست" },
+  "Achieve":      { synonym: "Accomplish",   antonym: "Fail",       urdu: "حاصل کرنا" },
+  "Admit":        { synonym: "Confess",      antonym: "Deny",       urdu: "تسلیم کرنا" },
+  "Adverse":      { synonym: "Unfavorable",  antonym: "Favorable",  urdu: "منفی" },
+  "Ancient":      { synonym: "Old",          antonym: "Modern",     urdu: "قدیم" },
+  "Arrogant":     { synonym: "Haughty",      antonym: "Humble",     urdu: "مغرور" },
+  "Artificial":   { synonym: "Synthetic",    antonym: "Natural",    urdu: "مصنوعی" },
+  "Authentic":    { synonym: "Genuine",      antonym: "Fake",       urdu: "مستند" },
+  "Barren":       { synonym: "Infertile",    antonym: "Fertile",    urdu: "بنجر" },
+  "Brave":        { synonym: "Courageous",   antonym: "Cowardly",   urdu: "بہادر" },
+  "Brief":        { synonym: "Short",        antonym: "Lengthy",    urdu: "مختصر" },
+  "Capable":      { synonym: "Competent",    antonym: "Incapable",  urdu: "قابل" },
+  "Cautious":     { synonym: "Careful",      antonym: "Reckless",   urdu: "محتاط" },
+  "Cease":        { synonym: "Stop",         antonym: "Continue",   urdu: "رکنا" },
+  "Clear":        { synonym: "Obvious",      antonym: "Unclear",    urdu: "صاف" },
+  "Complex":      { synonym: "Complicated",  antonym: "Simple",     urdu: "پیچیدہ" },
+  "Conceal":      { synonym: "Hide",         antonym: "Reveal",     urdu: "چھپانا" },
+  "Condemn":      { synonym: "Criticize",    antonym: "Praise",     urdu: "مذمت کرنا" },
+  "Construct":    { synonym: "Build",        antonym: "Demolish",   urdu: "تعمیر کرنا" },
+  "Decline":      { synonym: "Refuse",       antonym: "Accept",     urdu: "انکار کرنا" },
+  "Decrease":     { synonym: "Reduce",       antonym: "Increase",   urdu: "کم کرنا" },
+  "Defend":       { synonym: "Protect",      antonym: "Attack",     urdu: "دفاع کرنا" },
+  "Destroy":      { synonym: "Ruin",         antonym: "Create",     urdu: "تباہ کرنا" },
+  "Diligent":     { synonym: "Industrious",  antonym: "Lazy",       urdu: "محنتی" },
+  "Eliminate":    { synonym: "Remove",       antonym: "Retain",     urdu: "ختم کرنا" },
+  "Enormous":     { synonym: "Huge",         antonym: "Tiny",       urdu: "بہت بڑا" },
+  "Essential":    { synonym: "Vital",        antonym: "Optional",   urdu: "ضروری" },
+  "Expand":       { synonym: "Enlarge",      antonym: "Contract",   urdu: "پھیلانا" },
+  "Frequent":     { synonym: "Regular",      antonym: "Rare",       urdu: "بار بار" },
+  "Generous":     { synonym: "Charitable",   antonym: "Stingy",     urdu: "سخی" },
+  "Genuine":      { synonym: "Real",         antonym: "Fake",       urdu: "حقیقی" },
+  "Huge":         { synonym: "Enormous",     antonym: "Tiny",       urdu: "بہت بڑا" },
+  "Important":    { synonym: "Significant",  antonym: "Trivial",    urdu: "اہم" },
+  "Increase":     { synonym: "Grow",         antonym: "Decrease",   urdu: "بڑھانا" },
+  "Innocent":     { synonym: "Blameless",    antonym: "Guilty",     urdu: "بے قصور" },
+  "Intelligent":  { synonym: "Smart",        antonym: "Stupid",     urdu: "ذہین" },
+  "Legal":        { synonym: "Lawful",       antonym: "Illegal",    urdu: "قانونی" },
+  "Major":        { synonym: "Chief",        antonym: "Minor",      urdu: "اہم" },
+  "Modern":       { synonym: "Contemporary", antonym: "Ancient",    urdu: "جدید" },
+  "Obvious":      { synonym: "Evident",      antonym: "Obscure",    urdu: "واضح" },
+  "Permit":       { synonym: "Allow",        antonym: "Forbid",     urdu: "اجازت دینا" },
+  "Powerful":     { synonym: "Strong",       antonym: "Weak",       urdu: "طاقتور" },
+  "Prevent":      { synonym: "Stop",         antonym: "Allow",      urdu: "روکنا" },
+  "Reject":       { synonym: "Refuse",       antonym: "Accept",     urdu: "مسترد کرنا" },
+  "Rich":         { synonym: "Wealthy",      antonym: "Poor",       urdu: "امیر" },
+  "Safe":         { synonym: "Secure",       antonym: "Dangerous",  urdu: "محفوظ" },
+  "Simple":       { synonym: "Easy",         antonym: "Complex",    urdu: "سادہ" },
+  "Strong":       { synonym: "Powerful",     antonym: "Weak",       urdu: "مضبوط" },
+  "Temporary":    { synonym: "Transient",    antonym: "Permanent",  urdu: "عارضی" },
+  "Useful":       { synonym: "Beneficial",   antonym: "Useless",    urdu: "مفید" },
+  "Valid":        { synonym: "Legitimate",   antonym: "Invalid",    urdu: "درست" },
+  "Victory":      { synonym: "Triumph",      antonym: "Defeat",     urdu: "فتح" },
+  "Visible":      { synonym: "Apparent",     antonym: "Invisible",  urdu: "نظر آنے والا" },
+  "Wealthy":      { synonym: "Rich",         antonym: "Poor",       urdu: "امیر" },
+  "Abhor":        { synonym: "Detest",       antonym: "Love",       urdu: "نفرت کرنا" },
+  "Alleviate":    { synonym: "Ease",         antonym: "Worsen",     urdu: "کم کرنا" },
+  "Benevolent":   { synonym: "Kind",         antonym: "Malevolent", urdu: "مہربان" },
+  "Coherent":     { synonym: "Logical",      antonym: "Incoherent", urdu: "مربوط" },
+  "Deteriorate":  { synonym: "Worsen",       antonym: "Improve",    urdu: "بگڑنا" },
+  "Explicit":     { synonym: "Clear",        antonym: "Vague",      urdu: "واضح" },
+  "Fragile":      { synonym: "Delicate",     antonym: "Sturdy",     urdu: "نازک" },
+  "Hostile":      { synonym: "Unfriendly",   antonym: "Friendly",   urdu: "دشمنانہ" },
+  "Inevitable":   { synonym: "Unavoidable",  antonym: "Avoidable",  urdu: "ناگزیر" },
+  "Infer":        { synonym: "Deduce",       antonym: "Guess",      urdu: "نتیجہ نکالنا" },
+  "Lucid":        { synonym: "Clear",        antonym: "Obscure",    urdu: "واضح" },
+  "Malicious":    { synonym: "Spiteful",     antonym: "Kind",       urdu: "بدخواہ" },
+  "Mandatory":    { synonym: "Compulsory",   antonym: "Optional",   urdu: "لازمی" },
+  "Massive":      { synonym: "Huge",         antonym: "Tiny",       urdu: "بہت بڑا" },
+  "Obsolete":     { synonym: "Outdated",     antonym: "Current",    urdu: "فرسودہ" },
+  "Optimistic":   { synonym: "Hopeful",      antonym: "Pessimistic",urdu: "پرامید" },
+  "Prohibit":     { synonym: "Forbid",       antonym: "Allow",      urdu: "منع کرنا" },
+  "Prompt":       { synonym: "Quick",        antonym: "Slow",       urdu: "فوری" },
+  "Prudent":      { synonym: "Wise",         antonym: "Reckless",   urdu: "ہوشیار" },
+  "Rigid":        { synonym: "Stiff",        antonym: "Flexible",   urdu: "سخت" },
+  "Robust":       { synonym: "Strong",       antonym: "Weak",       urdu: "مضبوط" },
+  "Scarce":       { synonym: "Rare",         antonym: "Abundant",   urdu: "کمیاب" },
+  "Sincere":      { synonym: "Honest",       antonym: "Insincere",  urdu: "مخلص" },
+  "Subtle":       { synonym: "Delicate",     antonym: "Obvious",    urdu: "لطیف" },
+  "Sustain":      { synonym: "Maintain",     antonym: "Cease",      urdu: "برقرار رکھنا" },
+  "Transparent":  { synonym: "Clear",        antonym: "Opaque",     urdu: "شفاف" },
+  "Ultimate":     { synonym: "Final",        antonym: "Initial",    urdu: "آخری" },
+  "Unique":       { synonym: "Distinct",     antonym: "Common",     urdu: "منفرد" },
+  "Vacant":       { synonym: "Empty",        antonym: "Occupied",   urdu: "خالی" },
+  "Validate":     { synonym: "Confirm",      antonym: "Invalidate", urdu: "توثیق کرنا" },
+  "Vanish":       { synonym: "Disappear",    antonym: "Appear",     urdu: "غائب ہونا" },
+  "Vast":         { synonym: "Immense",      antonym: "Limited",    urdu: "وسیع" },
+  "Verify":       { synonym: "Confirm",      antonym: "Disprove",   urdu: "تصدیق کرنا" },
+  "Vulnerable":   { synonym: "Susceptible",  antonym: "Protected",  urdu: "کمزور" },
+  "Withdraw":     { synonym: "Retreat",      antonym: "Advance",    urdu: "واپس لینا" },
+  "Yield":        { synonym: "Surrender",    antonym: "Resist",     urdu: "ہار ماننا" },
+  "Dull":         { synonym: "Boring",       antonym: "Interesting",urdu: "بیزار" },
+  "Dense":        { synonym: "Thick",        antonym: "Sparse",     urdu: "گھنا" },
+  "Arduous":      { synonym: "Difficult",    antonym: "Easy",       urdu: "مشکل" },
+  "Assert":       { synonym: "Declare",      antonym: "Deny",       urdu: "دعوی کرنا" }
+};
+
+const container = document.getElementById('wordContainer');
+const tooltip = document.getElementById('tooltip');
+let activeWord = null;
+
+function posTooltip(el) {
+    const rect = el.getBoundingClientRect();
+    let x = rect.left + rect.width / 2;
+    let y = rect.bottom + 8;
+    const tw = tooltip.offsetWidth;
+    if (x + tw / 2 > window.innerWidth) x = window.innerWidth - tw / 2;
+    if (x - tw / 2 < 0) x = tw / 2;
+    if (y + tooltip.offsetHeight > window.innerHeight) y = rect.top - tooltip.offsetHeight - 8;
+    tooltip.style.left = (x - tw / 2) + 'px';
+    tooltip.style.top = y + 'px';
+}
+
+function showTooltip(word) {
+    const d = wordsData[word];
+    if (!d) return;
+    tooltip.innerHTML = `
+        <div><span class="label">Synonym:</span> <span class="value">${d.synonym}</span></div>
+        <div><span class="label">Antonym:</span> <span class="value">${d.antonym}</span></div>
+        <div><span class="label">Urdu:</span> <span class="value">${d.urdu}</span></div>
+    `;
+    tooltip.style.display = 'block';
+}
+
+function hideTooltip() {
+    tooltip.style.display = 'none';
+    activeWord = null;
+}
+
+let touchFired = false;
+document.addEventListener('touchstart', () => { touchFired = true; });
+document.addEventListener('click', e => {
+    if (touchFired) { touchFired = false; return; }
+    if (!e.target.closest('.word')) hideTooltip();
+});
+
+// ---- history (last 3 YouGlish-opened words) ----
+const STORAGE_KEY = 'youglishHistory';
+
+function getHistory() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+}
+
+function saveHistoryEntry(word) {
+    let h = getHistory();
+    h = h.filter(w => w !== word);
+    h.push(word);
+    if (h.length > 3) h.shift();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(h));
+    applyHistory();
+}
+
+function applyHistory() {
+    document.querySelectorAll('.word').forEach(el => {
+        el.classList.remove('prominent', 'medium', 'subtle');
+    });
+    const h = getHistory();
+    const classes = ['subtle', 'medium', 'prominent'];
+    h.forEach((word, i) => {
+        const el = document.querySelector(`.word[data-word="${word}"]`);
+        if (el) el.classList.add(classes[i]);
+    });
+}
+
+function openYouglish(a, word) {
+    hideTooltip();
+    saveHistoryEntry(word);
+    window.open(a.href, '_blank');
+}
+
+const words = Object.keys(wordsData);
+words.forEach(w => {
+    const a = document.createElement('a');
+    a.className = 'word';
+    a.href = `https://youglish.com/pronounce/${w}/english`;
+    a.textContent = w;
+    a.dataset.word = w;
+
+    // desktop: single click = tooltip, double click = YouGlish
+    a.addEventListener('click', e => {
+        if (touchFired) { touchFired = false; return; }
+        e.preventDefault();
+        if (e.detail === 2) return;
+        if (activeWord === w) { hideTooltip(); return; }
+        activeWord = w;
+        showTooltip(w);
+        posTooltip(a);
+    });
+
+    a.addEventListener('dblclick', e => {
+        e.preventDefault();
+        openYouglish(a, w);
+    });
+
+    // mobile: single tap = tooltip, double tap = YouGlish
+    let tapTimer = null;
+    a.addEventListener('touchstart', e => {
+        if (tapTimer) {
+            clearTimeout(tapTimer);
+            tapTimer = null;
+            e.preventDefault();
+            openYouglish(a, w);
+            return;
+        }
+        tapTimer = setTimeout(() => {
+            tapTimer = null;
+            if (activeWord === w) { hideTooltip(); return; }
+            activeWord = w;
+            showTooltip(w);
+            posTooltip(a);
+        }, 300);
+    }, { passive: true });
+
+    container.appendChild(a);
+});
+
+applyHistory();
+</script>
 
 </body>
 </html>
