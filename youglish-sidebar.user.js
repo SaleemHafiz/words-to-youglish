@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         YouGlish Sidebar - FIA Vocabulary
 // @namespace    https://github.com/SaleemHafiz/words-to-youglish
-// @version      1.0
-// @description  Left sidebar with FIA vocabulary words. Click a word to open on YouGlish.
+// @version      1.1
+// @description  Right sidebar with FIA vocabulary words. Click a word to open on YouGlish.
 // @author       SaleemHafiz
 // @match        *://*/*
 // @grant        GM_addStyle
@@ -14,6 +14,7 @@
 (function() {
     'use strict';
 
+    const SIDEBAR_W = 260;
     const DATA_URL = 'https://raw.githubusercontent.com/SaleemHafiz/words-to-youglish/main/words-data.json';
     const STORAGE_KEY = 'youglish_sidebar_history';
 
@@ -22,8 +23,8 @@
         #yg-sidebar {
             position: fixed;
             top: 0;
-            left: 0;
-            width: 260px;
+            right: 0;
+            width: ${SIDEBAR_W}px;
             height: 100vh;
             background: #1e1e2e;
             color: #cdd6f4;
@@ -32,12 +33,7 @@
             z-index: 999999;
             display: flex;
             flex-direction: column;
-            box-shadow: 2px 0 12px rgba(0,0,0,0.4);
-            transform: translateX(-100%);
-            transition: transform 0.25s ease;
-        }
-        #yg-sidebar.open {
-            transform: translateX(0);
+            box-shadow: -2px 0 12px rgba(0,0,0,0.4);
         }
         #yg-sidebar * {
             box-sizing: border-box;
@@ -48,21 +44,8 @@
             font-weight: 700;
             font-size: 15px;
             background: #181825;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border-bottom: 1px solid #313244;
         }
-        #yg-sidebar .yg-header .yg-close {
-            cursor: pointer;
-            font-size: 18px;
-            line-height: 1;
-            color: #a6adc8;
-            background: none;
-            border: none;
-            padding: 2px 6px;
-        }
-        #yg-sidebar .yg-header .yg-close:hover { color: #f38ba8; }
 
         #yg-sidebar .yg-search {
             padding: 8px 14px;
@@ -124,33 +107,16 @@
         #yg-sidebar .yg-info .yg-label { color: #6c7086; margin-right: 4px; }
         #yg-sidebar .yg-info .yg-val { color: #cdd6f4; }
         #yg-sidebar .yg-info .yg-empty { color: #585b70; font-style: italic; }
-
-        #yg-toggle {
-            position: fixed;
-            top: 12px;
-            left: 12px;
-            z-index: 1000000;
-            background: #1e1e2e;
-            color: #cdd6f4;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            transition: background 0.15s;
-        }
-        #yg-toggle:hover { background: #313244; }
     `);
 
-    // ---- build sidebar DOM ----
+    // ---- push page content left ----
+    document.documentElement.style.marginRight = SIDEBAR_W + 'px';
+
+    // ---- build sidebar ----
     const sidebar = document.createElement('div');
     sidebar.id = 'yg-sidebar';
     sidebar.innerHTML = `
-        <div class="yg-header">
-            <span>FIA Vocabulary</span>
-            <button class="yg-close">&times;</button>
-        </div>
+        <div class="yg-header">FIA Vocabulary</div>
         <div class="yg-search"><input type="text" placeholder="Search words..." id="yg-search-input"></div>
         <div class="yg-list" id="yg-word-list"></div>
         <div class="yg-info" id="yg-info">
@@ -158,15 +124,6 @@
         </div>
     `;
     document.body.appendChild(sidebar);
-
-    const toggle = document.createElement('button');
-    toggle.id = 'yg-toggle';
-    toggle.textContent = '\u2609 Words';
-    document.body.appendChild(toggle);
-
-    // ---- open / close ----
-    toggle.onclick = () => sidebar.classList.toggle('open');
-    sidebar.querySelector('.yg-close').onclick = () => sidebar.classList.remove('open');
 
     // ---- fetch data ----
     let wordsData = {};
